@@ -199,3 +199,4 @@ def dbdelete(request, team_id):
     id = request.POST.get('id')
     Point.objects.filter(id=id).delete()
     return redirect('/UNO_result/Team/{}/'.format(team_id))
+
