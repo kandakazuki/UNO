@@ -1,0 +1,85 @@
+{% extends "UNO_result/base.html" %}
+
+{% block title %}ポイント加算{% endblock title %}
+{% block content %}
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.min.js"></script>
+<h4 class="mt-4 border-bottom">ポイント加算</h4>
+<form action="{% url 'UNO_result:point_add' team_id=team_info.id %}" method="POST">
+    {% csrf_token %}
+    <select name="player" class="form-control" style="width:100px;">
+        {% with selected=player1_selected player=team_info.player1 %}<option value="player1" {{selected}}>{{ player }}</option>{% endwith %}
+        {% with selected=player2_selected player=team_info.player2 %}<option value="player2" {{selected}}>{{ player }}</option>{% endwith %}
+        {% if team_info.player3 != '' %}
+        {% with selected=player3_selected player=team_info.player3 %}<option value="player3" {{selected}}>{{ player }}</option>{% endwith %}
+        {% endif %}
+        {% if team_info.player4 != '' %}
+        {% with selected=player4_selected player=team_info.player4 %}<option value="player4" {{selected}}>{{ player }}</option>{% endwith %}
+        {% endif %}
+    </select>
+    <div class="col text-center">
+        <button type="submit" class="btn btn-primary btn-lg my-3" name="point" value="0">0</button>
+        <button type="submit" class="btn btn-danger btn-lg my-3" name="point" value="1">1</button>
+        <button type="submit" class="btn btn-warning btn-lg my-3" name="point" value="2">2</button>
+        <button type="submit" class="btn btn-success btn-lg my-3" name="point" value="3">3</button>
+        <button type="submit" class="btn btn-primary btn-lg my-3" name="point" value="4">4</button>
+        <button type="submit" class="btn btn-danger btn-lg my-3" name="point" value="5">5</button>
+        <button type="submit" class="btn btn-warning btn-lg my-3" name="point" value="6">6</button>
+        <button type="submit" class="btn btn-success btn-lg my-3" name="point" value="7">7</button>
+        <button type="submit" class="btn btn-primary btn-lg my-3" name="point" value="8">8</button>
+        <button type="submit" class="btn btn-danger btn-lg my-3" name="point" value="9">9</button>
+        <button type="submit" class="btn btn-warning btn-lg my-3" name="point" value="20">S</button>
+        <button type="submit" class="btn btn-dark btn-lg my-3" name="point" value="50">W</button>
+    </div>
+</form>
+<div class="container">
+    <div class="row">
+        <div class="col-lg-9">
+        </div>
+        <div class="col-lg-1">
+            <form action="{% url 'UNO_result:dbinsert' team_id=team_info.id %}" method="POST">
+                {% csrf_token %}
+                {% with team_id=team_info.id %}<input type="hidden" name="team_id" value={{team_id}}>{% endwith %}
+                {% with player1=player1 %}<input type="hidden" name="player1" value={{ player1 }}>{% endwith %}
+                {% with player2=player2 %}<input type="hidden" name="player2" value={{ player2 }}>{% endwith %}
+                {% with player3=player3 %}<input type="hidden" name="player3" value={{ player3 }}>{% endwith %}
+                {% with player4=player4 %}<input type="hidden" name="player4" value={{ player4 }}>{% endwith %}
+                <button type="submit" class="btn btn-info btn-sm my-3">完了</button>
+            </form>
+        </div>
+        <div class="col-lg-2">
+            <form action="{% url 'UNO_result:point' team_id=team_info.id %}" method="POST">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-success btn-sm my-3">リセット</button>
+            </form>
+        </div>
+    </div>
+</div>
+<table class="table table-striped table-bordered">
+    <thead>
+    <tr>
+        <th scope="col">ID</th>
+        <th scope="col">{{ team_info.player1 }}</th>
+        <th scope="col">{{ team_info.player2 }}</th>
+        {% if team_info.player3 != '' %}
+        <th scope="col">{{ team_info.player3 }}</th>
+        {% endif %}
+        {% if team_info.player4 != '' %}
+        <th scope="col">{{ team_info.player4 }}</th>
+        {% endif %}
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <th scope="row">{{ team_info.id }}</th>
+        <td>{{ player1 }}</td>
+        <td>{{ player2 }}</td>
+        {% if team_info.player3 != '' %}
+        <td>{{ player3 }}</td>
+        {% endif %}
+        {% if team_info.player4 != '' %}
+        <td>{{ player4 }}</td>
+        {% endif %}
+    </tr>
+    </tbody>
+</table>
+{% endblock content %}

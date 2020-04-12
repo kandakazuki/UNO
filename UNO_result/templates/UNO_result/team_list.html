@@ -1,0 +1,40 @@
+{% extends "UNO_result/base.html" %}
+
+{% block title %}チーム一覧{% endblock title %}
+{% block content %}
+<h4 class="mt-4 border-bottom">チーム一覧 - {{ user }}</h4>
+<div class="col text-right">
+  <a href="{% url 'UNO_result:team_add' %}" class="btn btn-info btn-sm my-3">追加</a>
+</div>
+<table class="table table-striped table-bordered">
+  <thead>
+  <tr>
+    <th scope="col">ID</th>
+    <th scope="col">チーム名</th>
+    <th scope="col">プレイヤー1</th>
+    <th scope="col">プレイヤー2</th>
+    <th scope="col">プレイヤー3</th>
+    <th scope="col">プレイヤー4</th>
+    <th scope="col">管理者</th>
+    <th scope="col">アクション</th>
+  </tr>
+  </thead>
+  <tbody>
+  {% for team in teams %}
+  <tr>
+    <th scope="row">{{ team.id }}</th>
+    <td>{{ team.name }}</td>
+    <td>{{ team.player1 }}</td>
+    <td>{{ team.player2 }}</td>
+    <td>{{ team.player3 }}</td>
+    <td>{{ team.player4 }}</td>
+    <td>{{ team.admin }}</td>
+    <td>
+      <a href="{% url 'UNO_result:team_sel' team_id=team.id %}" class="btn btn-outline-info btn-sm">選択</a>
+      <a href="{% url 'UNO_result:team_del' team_id=team.id %}" class="btn btn-outline-danger btn-sm">削除</a>
+    </td>
+  </tr>
+  {% endfor %}
+  </tbody>
+</table>
+{% endblock content %}
