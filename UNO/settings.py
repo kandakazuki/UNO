@@ -11,10 +11,12 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 """
 
 import os
+import os
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-
+STATIC_ROOT = 'staticfiles'
+STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static'),)
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
@@ -24,9 +26,6 @@ SECRET_KEY = 'qvolh^(zyt!anta92tud85*9t#=4h+o=@h&j2cj_3rkt#x1*+w'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
-
-ALLOWED_HOSTS = []
-
 
 # Application definition
 
@@ -127,3 +126,11 @@ STATIC_URL = '/static/'
 LOGIN_REDIRECT_URL = '/UNO_result/Team/'
 LOGOUT_REDIRECT_URL = '/accounts/login'
 SESSION_ENGINE = 'user_sessions.backends.db'
+ALLOWED_HOSTS = ['*']
+
+import dj_database_url
+db_from_env = dj_database_url.config()
+DATABASES['default'].update(db_from_env)
+
+# Honor the 'X-Forwarded-Proto' header for request.is_secure()
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
